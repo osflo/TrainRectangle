@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
 
+"""
 #test exemple 1
 R1=ClassRectangle.Rectangle(1,2,3,4)
 R2=ClassRectangle.Rectangle(2,3,4,5)
@@ -22,7 +23,7 @@ for i in range(0,n-1):
     yb=rd.randrange(0,maxy-1)
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
-"""
+
 
 #main
 E.transform_to_laminar()
@@ -30,13 +31,16 @@ opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
 Dpfonction.transform_to_feasible(segms)
+print(opti[E.name])
 
-
-#plot  a test
+#plot 
 fig, ax=plt.subplots()
 for R in E.Rects:
-    ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb)))
+    ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec='black'))
 
 for se in segms:
-    ax.plot([se.s,se.e],[se.h,se.h])
+    ax.plot([se.s,se.e],[se.h,se.h],color='r')
 
+plt.show()
+
+##problem with the number of segment and the segment itself...
