@@ -34,7 +34,7 @@ opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
 #Dpfonction.transform_to_feasible(segms)
-print(opti[E.name])
+print(opti[E.name]*2)
 
 #plot 
 fig, ax=plt.subplots()
