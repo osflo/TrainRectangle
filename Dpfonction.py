@@ -22,12 +22,14 @@ def DPstabbing(E,opti,segm):
     #the optimal choice to place the segment to cut btw the top and bottom
     Rins=E.inside()
     optvert=0
-    Ropti=None
-    for R in Rins: #without loop ?
-        tomin=DPstabbing(E.coupure(E.maxRect.xb,E.minyb,E.maxRect.xh,min(E.maxRect.yb,R.yb)),opti,segm)+DPstabbing(E.coupure(E.maxRect.xb,max(E.maxRect.yh,R.yh),E.maxRect.xh,E.maxyh),opti,segm)
-        if tomin<optvert or Ropti==None:
+    value=False #to record if potvert a true value
+    Ropti=E.maxRect
+    for R in Rins: #without loop ? 
+        tomin=DPstabbing(E.coupure(E.maxRect.xb,E.minyb,E.maxRect.xh,R.yh-1),opti,segm)+DPstabbing(E.coupure(E.maxRect.xb,R.yh+1,E.maxRect.xh,E.maxyh),opti,segm)
+        if tomin<optvert or value==False :
             optvert=tomin
             Ropti=R
+            value=True
 
     opti[E.name]+=optvert
     segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh))
