@@ -78,8 +78,7 @@ class Ensemble:
     def inside(self):
         ins=[]
         for R in self.Rects:
-            if(R.xb>=self.maxRect.xb and R.xh<=self.maxRect.xh and ((R.yb<=self.maxRect.yh and R.yb>=self.maxRect.yb) or (R.yh>=self.maxRect.yb and R.yh<=self.maxRect.yh))): 
-                #the or condition let a part of the rectangle inside even if not entirely
+            if(R.xb>=self.maxRect.xb and R.xh<=self.maxRect.xh and  R.yh>=self.maxRect.yb and R.yh<=self.maxRect.yh):
                 ins.append(R)
         return ins
 
