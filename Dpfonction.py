@@ -45,6 +45,7 @@ def DPstabbing(E,opti,segm):
 
 #transform the set of segment to make a feasible solution for the original problem
 def transform_to_feasible(segm):
-    #liste resorti pour garder les 2
+    segm_feasible=[]
     for s in segm:
-        s.e=s.e+s.l
+        segm_feasible.append(ClassRectangle.Segment(s.s,s.e+s.l,s.h))
+    return segm_feasible

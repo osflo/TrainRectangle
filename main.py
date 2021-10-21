@@ -28,7 +28,8 @@ for i in range(0,n-1):
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
 
-fig, ax=plt.subplots()
+#copy of the original Rectangle list
+Origin_Rect=list(List_Rect)
 
 
 #main
@@ -37,18 +38,36 @@ E.transform_to_laminar()
 opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
-#Dpfonction.transform_to_feasible(segms)
+segm_feasible=Dpfonction.transform_to_feasible(segms)
 print(opti[E.name]*2)
 
-#plot : faire le plot pour laminar et le vrai
+
+#plot :
+
+fig, ax=plt.subplots(2)
+
+rgb = np.random.rand(3, )
+for R in Origin_Rect:
+    ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+
+for se in segm_feasible:
+    ax[0].plot([se.s,se.e],[se.h,se.h],color='r')
 
 for R in E.Rects:
-    rgb = np.random.rand(3, )
-    ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc="None"))
+    ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
 for se in segms:
-    ax.plot([se.s,se.e],[se.h,se.h],color='r')
+    ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
 
+ax[0].set_title('Final solution on the original rectangles')
+ax[1].set_title('Dp solution on the laminar instance')
+
+#tick postion
+ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))
+ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
+
+ax[0].grid()
+ax[1].grid()
 plt.show()
 
 #longuer algo/opt <8, ex big diff
