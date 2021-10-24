@@ -1,0 +1,1 @@
+power of 2, one double segment covers what other segments cover,the longer the segment the bigger the problem

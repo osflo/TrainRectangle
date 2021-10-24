@@ -9,11 +9,11 @@ from gurobipy import GRB
 
 ratio=0
 iter=0
-while ratio<6 and iter<500:
+while ratio<8 and iter<10000:
     #creation example
     n=rd.randrange(2,20) #max number of Rectangle in E -1
-    maxx=20 #maximum value for x-1 and y-1
-    maxy=20
+    maxx=70 #maximum value for x-1 and y-1
+    maxy=70
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -77,18 +77,18 @@ while ratio<6 and iter<500:
     fr.write(str(ratio)+" ")
     fr.close
 
-    f=open("Rectangle_and_ratio.txt","a")
-    f.write("ratio="+str(ratio)+" Rectangles:")
-    for R in E.Rects:
-        f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
-    f.write("\n")
-    f.close
+    if ratio>=3.8 or ratio<=1.65:
+        f=open("Rectangle_and_ratio.txt","a")
+        f.write("ratio="+str(ratio)+" Rectangles:")
+        for R in E.Rects:
+            f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
+        f.write("\n")
+        f.close
 
 
-    if ratio>=4:
+    if ratio>=4 or ratio<=1.5:
         fig, ax=plt.subplots(2)
 
-        rgb = np.random.rand(3, )
         for R in Origin_Rect:
             ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
@@ -110,7 +110,12 @@ while ratio<6 and iter<500:
 
         ax[0].grid()
         ax[1].grid()
+        plt.title("ratio="+str(ratio))
+        nom="ratio"+str(ratio)+".jpg"
+        plt.savefig(nom)
         plt.show()
-
         print(Origin_Rect)
         print(ratio)
+
+if ratio>=8:
+    print("!!!")
