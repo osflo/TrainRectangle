@@ -9,11 +9,11 @@ from gurobipy import GRB
 
 ratio=0
 iter=0
-while ratio<6 and iter<5000:
+while ratio<6 and iter<500:
     #creation example
-    n=rd.randrange(1,20) #max number of Rectangle in E -1
-    maxx=50 #maximum value for x-1 and y-1
-    maxy=50
+    n=rd.randrange(2,20) #max number of Rectangle in E -1
+    maxx=20 #maximum value for x-1 and y-1
+    maxy=20
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -72,18 +72,20 @@ while ratio<6 and iter<5000:
 
     #write on file
     fr=open("ratio.txt","a")
+    if ratio>=3:
+        fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close
 
-    f=open("Rectangle_and_ratio")
-    f.write("ratio="+str(ratio)+"Rectangles:")
+    f=open("Rectangle_and_ratio.txt","a")
+    f.write("ratio="+str(ratio)+" Rectangles:")
     for R in E.Rects:
         f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
     f.write("\n")
     f.close
 
 
-    if ratio>=6:
+    if ratio>=4:
         fig, ax=plt.subplots(2)
 
         rgb = np.random.rand(3, )
