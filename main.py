@@ -70,4 +70,4 @@ ax[0].grid()
 ax[1].grid()
 plt.show()
 
-#longuer algo/opt <8, ex big diff
+
