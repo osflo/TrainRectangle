@@ -11,9 +11,9 @@ ratio=0
 iter=0
 while ratio<8 and iter<10000:
     #creation example
-    n=rd.randrange(2,20) #max number of Rectangle in E -1
-    maxx=70 #maximum value for x-1 and y-1
-    maxy=70
+    n=rd.randrange(2,10) #max number of Rectangle in E -1
+    maxx=30 #maximum value for x-1 and y-1
+    maxy=30
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -71,14 +71,14 @@ while ratio<8 and iter<10000:
     iter+=1
 
     #write on file
-    fr=open("ratio.txt","a")
+    fr=open("ratio_allsmall.txt","a")
     if ratio>=3:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close
 
-    if ratio>=3.8 or ratio<=1.65:
-        f=open("Rectangle_and_ratio.txt","a")
+    if ratio>=3.7:
+        f=open("Rectangle_and_ratiov3.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Rects:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
