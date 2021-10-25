@@ -11,7 +11,8 @@ import copy
 ratio=0
 iter=0
 while ratio<8 and iter<10000:
-    #creation example
+    #creation example random
+    """
     n=rd.randrange(2,15) #max number of Rectangle in E -1
     maxx=100 #maximum value for x-1 and y-1
     maxy=100
@@ -21,6 +22,21 @@ while ratio<8 and iter<10000:
         yb=rd.randrange(0,maxy-1)
         List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
     E=ClassRectangle.Ensemble(List_Rect)
+    """
+    #creation exemple with w a 2^k+1
+    n=rd.randrange(2,15) #max number of Rectangle in E -1
+    maxx=40 #maximum value for x-1 and y-1
+    maxy=70
+    maxk=4 #7=>128,6=>64,5=>32,4=>16
+    List_Rect=[]
+    for i in range(0,n-1):
+        xb=rd.randrange(0,maxx-1)
+        yb=rd.randrange(0,maxy-1)
+        k=rd.randrange(0,maxk+1)
+        List_Rect.append(ClassRectangle.Rectangle(xb,yb, xb+2**k+1, rd.randrange(yb+1,maxy)))
+    E=ClassRectangle.Ensemble(List_Rect)
+
+    
 
     Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
@@ -72,23 +88,25 @@ while ratio<8 and iter<10000:
     iter+=1
 
     #write on file
-    fr=open("ratio_largebound.txt","a")
+    
+    fr=open("ratio_power1.txt","a")
     if ratio>=3:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
+    
 
     
-    if ratio>=4.0 or ratio<=1.6:
-        f=open("Rectangle_and_ratio_large.txt","a")
+    if ratio>=4.0 or ratio<=2.0:
+        f=open("ratio_and_Rect_power1v2.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
-        for R in E.Rects:
+        for R in Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
         f.write("\n")
         f.close()
     
 
-    if ratio>=4.0:
+    if ratio>=4.8 or ratio<=1.6:
 
         fig, ax=plt.subplots(2)
 

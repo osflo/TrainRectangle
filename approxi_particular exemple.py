@@ -12,6 +12,7 @@ ratio=0
 
 
 #creation example
+#List_Rect=[ClassRectangle.Rectangle(36,1,45,31),ClassRectangle.Rectangle(30,21,47,38)]
 List_Rect=[ClassRectangle.Rectangle(15,0,24,29),ClassRectangle.Rectangle(16,25,25,28)]
 E=ClassRectangle.Ensemble(List_Rect)
 
