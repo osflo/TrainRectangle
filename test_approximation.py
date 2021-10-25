@@ -6,14 +6,15 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
+import copy
 
 ratio=0
 iter=0
 while ratio<8 and iter<10000:
     #creation example
-    n=rd.randrange(2,10) #max number of Rectangle in E -1
-    maxx=30 #maximum value for x-1 and y-1
-    maxy=30
+    n=rd.randrange(2,15) #max number of Rectangle in E -1
+    maxx=100 #maximum value for x-1 and y-1
+    maxy=100
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -21,7 +22,7 @@ while ratio<8 and iter<10000:
         List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
     E=ClassRectangle.Ensemble(List_Rect)
 
-    Origin_Rect=list(List_Rect) #copy of the original Rectangle list
+    Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
     #exact sol
     #create all feasible segments
@@ -71,22 +72,24 @@ while ratio<8 and iter<10000:
     iter+=1
 
     #write on file
-    fr=open("ratio_allsmall.txt","a")
+    fr=open("ratio_largebound.txt","a")
     if ratio>=3:
         fr.write("\n")
     fr.write(str(ratio)+" ")
-    fr.close
+    fr.close()
 
-    if ratio>=3.7:
-        f=open("Rectangle_and_ratiov3.txt","a")
+    
+    if ratio>=4.0 or ratio<=1.6:
+        f=open("Rectangle_and_ratio_large.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Rects:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
         f.write("\n")
-        f.close
+        f.close()
+    
 
+    if ratio>=4.0:
 
-    if ratio>=4 or ratio<=1.5:
         fig, ax=plt.subplots(2)
 
         for R in Origin_Rect:
@@ -113,9 +116,6 @@ while ratio<8 and iter<10000:
         plt.title("ratio="+str(ratio))
         nom="ratio"+str(ratio)+".jpg"
         plt.savefig(nom)
-        plt.show()
-        print(Origin_Rect)
-        print(ratio)
 
 if ratio>=8:
     print("!!!")

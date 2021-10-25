@@ -1,1 +1,10 @@
 power of 2, one double segment covers what other segments cover,the longer the segment the bigger the problem
+
+pourquoi ?
+ratio=4.0 Rectangles:[(0,19) , (16,27)][(16,16) , (32,25)]
+ratio=5.333333333333333 Rectangles:[(20,22) , (24,28)][(16,17) , (32,28)][(0,22) , (16,24)]
+
+4.0 and 4.8 jpg ? 
+
+work well when also power of 2 ???
+error in the program 

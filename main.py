@@ -17,6 +17,7 @@ E=ClassRectangle.Ensemble([R1,R2,R3,R4])
 
 
 """
+
 #test exemple 2,
 n=rd.randrange(1,20) #max number of Rectangle in E -1
 maxx=100 #maximum value for x-1 and y-1
