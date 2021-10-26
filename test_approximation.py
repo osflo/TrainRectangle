@@ -10,7 +10,7 @@ import copy
 
 ratio=0
 iter=0
-while ratio<8 and iter<10000:
+while ratio<8 and iter<2:
     #creation example random
     """
     n=rd.randrange(2,15) #max number of Rectangle in E -1
