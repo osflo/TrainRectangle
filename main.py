@@ -4,6 +4,7 @@ import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
+import copy
 
 
 """
@@ -30,7 +31,7 @@ for i in range(0,n-1):
 E=ClassRectangle.Ensemble(List_Rect)
 
 #copy of the original Rectangle list
-Origin_Rect=list(List_Rect)
+Origin_Rect=copy.deepcopy(List_Rect)
 
 
 #main
@@ -45,7 +46,7 @@ print(opti[E.name]*2)
 
 #plot :
 
-fig, ax=plt.subplots(2)
+fig, ax=plt.subplots(2,sharex=True)
 
 rgb = np.random.rand(3, )
 for R in Origin_Rect:

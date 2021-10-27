@@ -10,7 +10,7 @@ import copy
 
 ratio=0
 iter=0
-while ratio<8 and iter<2:
+while ratio<8 and iter<10000:
     #creation example random
     """
     n=rd.randrange(2,15) #max number of Rectangle in E -1
@@ -109,7 +109,7 @@ while ratio<8 and iter<2:
 
     if ratio>=4.8 or ratio<=1.6:
 
-        fig, ax=plt.subplots(2)
+        fig, ax=plt.subplots(2,sharex=True)
 
         for R in Origin_Rect:
             ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))

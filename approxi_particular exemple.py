@@ -21,10 +21,12 @@ Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 #exact sol
 #create all feasible segments
 all_segm=[]
-for i in range(E.minxb,E.maxxh):
-    for j in range(i+1,E.maxxh+1):
-        for h in range(E.minyb,E.maxyh+1):
-            all_segm.append(ClassRectangle.Segment(i,j,h))
+for Rs in E.Rects: #give start
+    for Re in E.Rects: #give end
+        for Rh in E.Rects: #give hight
+            if Rs.xb<Re.xh:
+                all_segm.append(ClassRectangle.Segment(Rs.xb,Re.xh,Rh.yh))
+
 
     #create list of weight/lenght
 w=[s.l for s in all_segm]
@@ -67,7 +69,7 @@ ratio=sol_approx/exact_sol
 
 
 
-fig, ax=plt.subplots(2)
+fig, ax=plt.subplots(2,sharex=True)
 
 for r in Origin_Rect:
     ax[0].add_patch(Rectangle((r.xb,r.yb),r.w,(r.yh-r.yb),ec="black",fc=(0,0,1,0.2),lw=2))
