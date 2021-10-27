@@ -43,10 +43,11 @@ while ratio<8 and iter<2:
     #exact sol
     #create all feasible segments
     all_segm=[]
-    for i in range(E.minxb,E.maxxh):
-        for j in range(i+1,E.maxxh+1):
-            for h in range(E.minyb,E.maxyh+1):
-                all_segm.append(ClassRectangle.Segment(i,j,h))
+    for Rs in E.Rects: #give start
+        for Re in E.Rects: #give end
+            for Rh in E.Rects: #give hight
+                if Rs.xb<Re.xh:
+                    all_segm.append(ClassRectangle.Segment(Rs.xb,Re.xh,Rh.yh))
 
     #create list of weight/lenght
     w=[s.l for s in all_segm]
