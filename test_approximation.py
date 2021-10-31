@@ -74,6 +74,7 @@ while ratio<8 and iter<10000:
     m.addConstr(M @ x >= rhs, name='c')
     m.optimize()
     exact_sol=m.objVal
+    exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
     E.transform_to_laminar()
@@ -82,7 +83,7 @@ while ratio<8 and iter<10000:
     Dpfonction.DPstabbing(E,opti,segms)
     segm_feasible=Dpfonction.transform_to_feasible(segms)
     sol_approx=opti[E.name]*2
-    print(sol_approx)
+    
 
     #Ratio
     ratio=sol_approx/exact_sol
@@ -109,31 +110,40 @@ while ratio<8 and iter<10000:
 
     if ratio>=4.8 or ratio<=1.6:
 
-        fig, ax=plt.subplots(2,sharex=True)
+        fig, ax=plt.subplots(3,sharex=True)
+        fig.set_figheight(8)
+        fig.set_figwidth(10)
 
         for R in Origin_Rect:
             ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
-
-        for se in segm_feasible:
-            ax[0].plot([se.s,se.e],[se.h,se.h],color='r')
-
-        for R in E.Rects:
             ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
-        for se in segms:
+        for se in exact_segm:
+            ax[0].plot([se.s,se.e],[se.h,se.h],color='r')
+
+        for se in segm_feasible:
             ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
 
-        ax[0].set_title('Final solution on the original rectangles')
-        ax[1].set_title('Dp solution on the laminar instance')
+        for R in E.Rects:
+            ax[2].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+
+        for se in segms:
+            ax[2].plot([se.s,se.e],[se.h,se.h],color='r')
+
+        ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))
+        ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
+        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name]))
 
         #tick postion
         ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))
         ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
+        ax[2].xaxis.set_major_locator(plt.MultipleLocator(4))
 
         ax[0].grid()
         ax[1].grid()
-        plt.title("ratio="+str(ratio))
-        nom="ratio"+str(ratio)+".jpg"
+        ax[2].grid()
+        fig.suptitle("ratio="+str(ratio)+", length="+str(Origin_Rect[0].w))
+        nom="ratio"+str(ratio)
         plt.savefig(nom)
 
 if ratio>=8:
