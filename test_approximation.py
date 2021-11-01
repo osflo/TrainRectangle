@@ -12,10 +12,10 @@ ratio=0
 iter=0
 while ratio<8 and iter<10000:
     #creation example random
-    """
-    n=rd.randrange(2,15) #max number of Rectangle in E -1
-    maxx=100 #maximum value for x-1 and y-1
-    maxy=100
+    
+    n=rd.randrange(3,21) #max number of Rectangle in E -1
+    maxx=150 #maximum value for x-1 and y-1
+    maxy=150
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -35,7 +35,7 @@ while ratio<8 and iter<10000:
         k=rd.randrange(0,maxk+1)
         List_Rect.append(ClassRectangle.Rectangle(xb,yb, xb+2**k+1, rd.randrange(yb+1,maxy)))
     E=ClassRectangle.Ensemble(List_Rect)
-
+"""
     
 
     Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
@@ -91,7 +91,7 @@ while ratio<8 and iter<10000:
 
     #write on file
     
-    fr=open("ratio_power1.txt","a")
+    fr=open("ratio_random.txt","a")
     if ratio>=3:
         fr.write("\n")
     fr.write(str(ratio)+" ")
@@ -99,8 +99,8 @@ while ratio<8 and iter<10000:
     
 
     
-    if ratio>=4.0 or ratio<=2.0:
-        f=open("ratio_and_Rect_power1v2.txt","a")
+    if ratio>=4.5 or ratio<=2.0:
+        f=open("ratio_and_Rect_random.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
@@ -108,7 +108,7 @@ while ratio<8 and iter<10000:
         f.close()
     
 
-    if ratio>=4.8 or ratio<=1.6:
+    if ratio>=4.3 or ratio<=1.4:
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)
@@ -143,7 +143,7 @@ while ratio<8 and iter<10000:
         ax[1].grid()
         ax[2].grid()
         fig.suptitle("ratio="+str(ratio)+", length="+str(Origin_Rect[0].w))
-        nom="ratio"+str(ratio)
+        nom="ratio"+str(ratio)+"iter"+str(iter)+'.png'
         plt.savefig(nom)
 
 if ratio>=8:
