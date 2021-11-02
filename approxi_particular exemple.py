@@ -88,7 +88,7 @@ for R in E.Rects:
 for se in segms:
     ax[2].plot([se.s,se.e],[se.h,se.h],color='r')
 
-ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))
+ax[0].set_title('True solution on the original instance, OPT='+str(exact_sol))
 ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
 ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name]))
 

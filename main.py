@@ -36,7 +36,6 @@ Origin_Rect=copy.deepcopy(List_Rect)
 
 #main
 E.transform_to_laminar()
-
 opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
