@@ -6,7 +6,7 @@ import time
 import numpy as np
 
 N=10*np.arange(1,70)
-maxXY=[100]
+maxXY=[100,40]
 fig=plt.figure()
 for maxx in maxXY:
     Time=[]
