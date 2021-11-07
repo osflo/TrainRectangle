@@ -33,8 +33,10 @@ for maxx in maxXY:
 X=[i for i in range(0,N[-1])]
 X5=[10**(-8)*x**5 for x in X]
 X4=[10**(-8)*x**4 for x in X]
+X3=[10**(-8)*x**3 for x in X]
 plt.semilogy(X,X5,label='growth in n^5')
 plt.semilogy(X,X4,label='growth in n^4')
+plt.semilogy(X,X3,label='growth in n^3')
 plt.title('Time to run the algorithm in fonction of the number of rectangle n')
 plt.ylabel('time in s')
 plt.xlabel('n')

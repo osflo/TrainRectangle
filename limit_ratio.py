@@ -11,9 +11,9 @@ import copy
 
 maxpower= 5 #must be odd for good graph if //2
 if maxpower<=7: #plot the figures
-    fig, ax=plt.subplots(maxpower//2+1,2,sharex='col')
-    fig.set_figheight(10)
-    fig.set_figwidth(10)
+    fig, ax=plt.subplots(2,maxpower//2+1)
+    fig.set_figheight(12)
+    fig.set_figwidth(25)
 
 else:#plot a graph
     fig=plt.figure(figsize=(10,10))
@@ -80,29 +80,32 @@ for power in range(0,maxpower+1):
     if maxpower<=7:
         if power<=maxpower//2:
             for R in Origin_Rect:
-                ax[power,0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+                ax[0,power].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
         
             for se in segm_feasible:
-                ax[power,0].plot([se.s,se.e],[se.h,se.h],color='r')
+                ax[0,power].plot([se.s,se.e],[se.h,se.h],color='r')
 
-            ax[power,0].set_title('ratio='+str(ratio)+', length='+str(2**power+1)+', start='+str(2**(power+1)))
+            ax[0,power].set_title('ratio={:.3f}, start={:}, lenght={:.3f}'.format(ratio,2**(power+1),2**power+1),fontsize=15)
         
             #tick postion
-            ax[power,0].xaxis.set_major_locator(plt.MultipleLocator(4))
-            ax[power,0].grid()
+            ax[0,power].xaxis.set_major_locator(plt.MultipleLocator(4))
+            ax[0,power].grid()
 
         else:
             for R in Origin_Rect:
-                ax[power-maxpower//2-1,1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+                ax[1,power-maxpower//2-1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
         
             for se in segm_feasible:
-                ax[power-maxpower//2-1,1].plot([se.s,se.e],[se.h,se.h],color='r')
+                ax[1,power-maxpower//2-1].plot([se.s,se.e],[se.h,se.h],color='r')
 
-            ax[power-maxpower//2-1,1].set_title('ratio='+str(ratio)+', start='+str(2**(power+1))+', length='+str(2**power+1))
+            ax[1,power-maxpower//2-1].set_title('ratio={:.3f}, start={:}, lenght={:.3f}'.format(ratio,2**(power+1),2**power+1),fontsize=15)
         
             #tick postion
-            ax[power-maxpower//2-1,1].xaxis.set_major_locator(plt.MultipleLocator(64))
-            ax[power-maxpower//2-1,1].grid()
+            if power<=6:
+                ax[1,power-maxpower//2-1].xaxis.set_major_locator(plt.MultipleLocator(32))
+            else:
+                ax[1,power-maxpower//2-1].xaxis.set_major_locator(plt.MultipleLocator(64))
+            ax[1,power-maxpower//2-1].grid()
 
     else:
         power2.append(power)
@@ -110,8 +113,8 @@ for power in range(0,maxpower+1):
 
 
 if maxpower<=7:
-    fig.suptitle('Limit of the ratio')
-    plt.savefig('limit_ratio_need2_to'+str(maxpower))
+    fig.suptitle('Limit of the ratio',fontsize=25)
+    plt.savefig('limit_ratio_need2_to_line'+str(maxpower))
 
 else:
     plt.plot(power2,list_ratio)
