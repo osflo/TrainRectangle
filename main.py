@@ -4,15 +4,15 @@ import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
-import copy
 
 
 """
+
 #test exemple 1
 R1=ClassRectangle.Rectangle(1,2,2,4)
-R2=ClassRectangle.Rectangle(2,3,5,5)
+R2=ClassRectangle.Rectangle(2,3,4,5)
 R3=ClassRectangle.Rectangle(4,8,5,9)
-R4=ClassRectangle.Rectangle(4,2,5,5)
+R4=ClassRectangle.Rectangle(5,2,8,5)
 E=ClassRectangle.Ensemble([R1,R2,R3,R4])
 
 
@@ -20,7 +20,7 @@ E=ClassRectangle.Ensemble([R1,R2,R3,R4])
 """
 
 #test exemple 2,
-n=rd.randrange(1,20) #max number of Rectangle in E -1
+n=rd.randrange(1,10) #max number of Rectangle in E -1
 maxx=100 #maximum value for x-1 and y-1
 maxy=100
 List_Rect=[]
@@ -30,8 +30,9 @@ for i in range(0,n-1):
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
 
+
 #copy of the original Rectangle list
-Origin_Rect=copy.deepcopy(List_Rect)
+Origin_Rect=E.Origin_Rect
 
 
 #main
@@ -39,7 +40,7 @@ E.transform_to_laminar()
 opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
-segm_feasible=Dpfonction.transform_to_feasible(segms)
+segm_feasible=Dpfonction.transform_to_feasible(E,segms)
 print(opti[E.name]*2)
 
 

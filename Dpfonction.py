@@ -43,9 +43,21 @@ def DPstabbing(E,opti,segm):
     segm=[]
     return opti,segm
 
-#transform the set of segment to make a feasible solution for the original problem
-def transform_to_feasible(segm):
-    segm_feasible=[]
-    for s in segm:
-        segm_feasible.append(ClassRectangle.Segment(s.s,s.e+s.l,s.h))
-    return segm_feasible
+#transform the set of segment to make a feasible solution for the original problem, check how much augmenting is necessary
+def transform_to_feasible(E,segm):
+    if not(E.is_laminar):
+        segm_feasible=[]
+        for s in segm:
+            doubled_end=s.e+s.l
+            start=doubled_end
+            end=s.s
+            for R in E.Origin_Rect:
+                stabbed=R.xb>=s.s and R.xh<=doubled_end
+                if ( stabbed and start>R.xb):
+                    start=R.xb
+                if (stabbed and end<R.xh):
+                    end=R.xh
+            segm_feasible.append(ClassRectangle.Segment(start,end,s.h))
+        return segm_feasible
+    else:
+        return segm

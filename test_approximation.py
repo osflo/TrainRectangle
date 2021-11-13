@@ -6,7 +6,7 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
-import copy
+
 
 ratio=0
 iter=0
@@ -38,7 +38,6 @@ while ratio<8 and iter<10000:
 """
     
 
-    Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
     #exact sol
     #create all feasible segments
@@ -81,8 +80,8 @@ while ratio<8 and iter<10000:
     opti={}
     segms=[]
     Dpfonction.DPstabbing(E,opti,segms)
-    segm_feasible=Dpfonction.transform_to_feasible(segms)
-    sol_approx=opti[E.name]*2
+    segm_feasible=Dpfonction.transform_to_feasible(E,segms)
+    sol_approx=sum(s.l for s in segm_feasible)
     
 
     #Ratio
@@ -102,7 +101,7 @@ while ratio<8 and iter<10000:
     if ratio>=4.5 or ratio<=2.0:
         f=open("ratio_and_Rect_random.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
-        for R in Origin_Rect:
+        for R in E.Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
         f.write("\n")
         f.close()
@@ -114,7 +113,7 @@ while ratio<8 and iter<10000:
         fig.set_figheight(8)
         fig.set_figwidth(10)
 
-        for R in Origin_Rect:
+        for R in E.Origin_Rect:
             ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
             ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
@@ -142,7 +141,7 @@ while ratio<8 and iter<10000:
         ax[0].grid()
         ax[1].grid()
         ax[2].grid()
-        fig.suptitle("ratio="+str(ratio)+", length="+str(Origin_Rect[0].w))
+        fig.suptitle("ratio="+str(ratio)+", length="+str(E.Origin_Rect[0].w))
         nom="ratio"+str(ratio)+"iter"+str(iter)+'.png'
         plt.savefig(nom)
 

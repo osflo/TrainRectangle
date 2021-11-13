@@ -13,7 +13,7 @@ ratio=0
 
 #creation example
 #List_Rect=[ClassRectangle.Rectangle(36,1,45,31),ClassRectangle.Rectangle(30,21,47,38)] petit : ClassRectangle.Rectangle(31,25,33,28)
-List_Rect=[ClassRectangle.Rectangle(127,0,192,29),ClassRectangle.Rectangle(128,25,193,28)] #,ClassRectangle.Rectangle(128*2-1,23,128*2+20,28)]
+List_Rect=[ClassRectangle.Rectangle(15,0,34,29),ClassRectangle.Rectangle(16,25,35,28)] #,ClassRectangle.Rectangle(128*2-1,23,128*2+20,28)]
 E=ClassRectangle.Ensemble(List_Rect)
 
 Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
@@ -60,8 +60,8 @@ E.transform_to_laminar()
 opti={}
 segms=[]
 Dpfonction.DPstabbing(E,opti,segms)
-segm_feasible=Dpfonction.transform_to_feasible(segms)
-sol_approx=opti[E.name]*2
+segm_feasible=Dpfonction.transform_to_feasible(E,segms)
+sol_approx=sum(s.l for s in segm_feasible)
 
 
 #Ratio
@@ -93,14 +93,14 @@ ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_ap
 ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name]))
 
 #tick postion
-ax[0].xaxis.set_major_locator(plt.MultipleLocator(16))
-ax[1].xaxis.set_major_locator(plt.MultipleLocator(16))
-ax[2].xaxis.set_major_locator(plt.MultipleLocator(16))
+ax[0].xaxis.set_major_locator(plt.MultipleLocator(1))
+ax[1].xaxis.set_major_locator(plt.MultipleLocator(1))
+ax[2].xaxis.set_major_locator(plt.MultipleLocator(1))
 fig.suptitle("ratio="+str(ratio)+", length="+str(Origin_Rect[0].w))
 ax[0].grid()
 ax[1].grid()
 ax[2].grid()
-plt.savefig('limit'+'length'+str(Origin_Rect[0].w))
+#plt.savefig('limit'+'length'+str(Origin_Rect[0].w))
 plt.show()
 
 
