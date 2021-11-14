@@ -1,5 +1,6 @@
 from operator import attrgetter
 import ClassRectangle
+import copy
 
 #main part of the dynamic program, take an Ensemble E on which he operate, a dictionary opti to remember the already computed value and a list segm which contain the segments in the solution
 def DPstabbing(E,opti,segm):
@@ -13,8 +14,7 @@ def DPstabbing(E,opti,segm):
         return 0
     if E.n==1 :
         opti[E.name]=E.maxRect.w
-        S=ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh)
-        segm[S.name]=S
+        segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh))
         return opti[E.name]
 
     #the lenght of the maxRect and the solution of the problem on its left and right
@@ -25,17 +25,19 @@ def DPstabbing(E,opti,segm):
     optvert=0
     value=False #to record if potvert a true value
     Ropti=E.maxRect
+    segmtoadd=[]
     for R in Rins: 
-        tomin=DPstabbing(E.coupure(E.maxRect.xb,E.minyb,E.maxRect.xh,R.yh-1),opti,segm)+DPstabbing(E.coupure(E.maxRect.xb,R.yh+1,E.maxRect.xh,E.maxyh),opti,segm)
+        segmtemp=[]
+        tomin=DPstabbing(E.coupure(E.maxRect.xb,E.minyb,E.maxRect.xh,R.yh-1),opti,segmtemp)+DPstabbing(E.coupure(E.maxRect.xb,R.yh+1,E.maxRect.xh,E.maxyh),opti,segmtemp)
         if tomin<optvert or value==False :
             optvert=tomin
             Ropti=R
             value=True
+            segmtoadd=copy.deepcopy(segmtemp)
 
     opti[E.name]+=optvert
-    S=ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)
-    segm[S.name]=S 
-    
+    segm.extend(copy.deepcopy(segmtoadd))
+    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)) #problem some segm are taken twice
 
     return opti[E.name]
     

@@ -1,5 +1,5 @@
 import ClassRectangle
-import Dpfonction_bool as Dpfonction
+import Dpfonction
 import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -62,6 +62,9 @@ for R in E.Rects:
 
 for se in segms:
     ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
+
+ax[0].plot()
+ax[1].plot()
 
 ax[0].set_title('Final solution on the original rectangles')
 ax[1].set_title('Dp solution on the laminar instance')

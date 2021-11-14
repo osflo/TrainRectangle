@@ -21,7 +21,6 @@ class Segment:
         self.s=start
         self.e=end
         self.h=h
-        self.name=str(start)+','+str(end)+','+str(h)
 
     @property
     def l(self):
