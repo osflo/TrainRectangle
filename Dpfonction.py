@@ -37,7 +37,7 @@ def DPstabbing(E,opti,segm):
 
     opti[E.name]+=optvert
     segm.extend(copy.deepcopy(segmtoadd))
-    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)) #problem some segm are taken twice
+    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)) #toujour un problème
 
     return opti[E.name]
     
