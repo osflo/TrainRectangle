@@ -1,20 +1,22 @@
 import ClassRectangle
-import Dpfonction
+import Dpfonction_bool as Dpfonction
 import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
 
 
-"""
+
 
 #test exemple 1
-R1=ClassRectangle.Rectangle(1,2,2,4)
-R2=ClassRectangle.Rectangle(2,3,4,5)
-R3=ClassRectangle.Rectangle(4,8,5,9)
-R4=ClassRectangle.Rectangle(5,2,8,5)
+R1=ClassRectangle.Rectangle(0,4,8,8)
+R2=ClassRectangle.Rectangle(0,3,4,5)
+R3=ClassRectangle.Rectangle(2,0,4,1)
+R4=ClassRectangle.Rectangle(4,7,6,9)
 E=ClassRectangle.Ensemble([R1,R2,R3,R4])
 
+#List_Rect=[ClassRectangle.Rectangle(15,0,34,29),ClassRectangle.Rectangle(16,25,35,28)]
+#E=ClassRectangle.Ensemble(List_Rect)
 
 
 """
@@ -29,7 +31,7 @@ for i in range(0,n-1):
     yb=rd.randrange(0,maxy-1)
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
-
+"""
 
 #copy of the original Rectangle list
 Origin_Rect=E.Origin_Rect

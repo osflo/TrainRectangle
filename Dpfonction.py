@@ -13,7 +13,8 @@ def DPstabbing(E,opti,segm):
         return 0
     if E.n==1 :
         opti[E.name]=E.maxRect.w
-        segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh))
+        S=ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh)
+        segm[S.name]=S
         return opti[E.name]
 
     #the lenght of the maxRect and the solution of the problem on its left and right
@@ -24,7 +25,7 @@ def DPstabbing(E,opti,segm):
     optvert=0
     value=False #to record if potvert a true value
     Ropti=E.maxRect
-    for R in Rins: #without loop ? 
+    for R in Rins: 
         tomin=DPstabbing(E.coupure(E.maxRect.xb,E.minyb,E.maxRect.xh,R.yh-1),opti,segm)+DPstabbing(E.coupure(E.maxRect.xb,R.yh+1,E.maxRect.xh,E.maxyh),opti,segm)
         if tomin<optvert or value==False :
             optvert=tomin
@@ -32,7 +33,9 @@ def DPstabbing(E,opti,segm):
             value=True
 
     opti[E.name]+=optvert
-    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh))
+    S=ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)
+    segm[S.name]=S 
+    
 
     return opti[E.name]
     
