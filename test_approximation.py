@@ -10,12 +10,12 @@ from gurobipy import GRB
 
 ratio=0
 iter=0
-while ratio<8 and iter<10000:
+while ratio<8 and iter<30000:
     #creation example random
     
-    n=rd.randrange(3,15) #max number of Rectangle in E -1
-    maxx=150 #maximum value for x-1 and y-1
-    maxy=150
+    n=rd.randrange(3,23) #max number of Rectangle in E -1
+    maxx=300 #maximum value for x-1 and y-1
+    maxy=300
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -91,14 +91,14 @@ while ratio<8 and iter<10000:
     #write on file
     
     fr=open("ratio_random_afteramelioration.txt","a")
-    if ratio>=1.5:
+    if ratio>=1.4:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
     
 
     
-    if ratio>=3.5 :
+    if ratio>=2.0 :
         f=open("ratio_and_Rect_afteramelioration.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
@@ -107,7 +107,7 @@ while ratio<8 and iter<10000:
         f.close()
     
 
-    if ratio>=3.5 :
+    if ratio>=2.0 :
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)
