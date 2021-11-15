@@ -6,19 +6,23 @@ import copy
 def DPstabbing(E,opti,segm):
     #already computed
     if E.name in opti :
-        return opti[E.name]
+        segs=opti[E.name][1]
+        if segs!=[]:
+            segm.extend(copy.deepcopy(segs))
+        return opti[E.name][0]
 
     #simple cases
     if E.n==0 : 
-        opti[E.name]=0
+        opti[E.name]=[0,[]]
         return 0
     if E.n==1 :
-        opti[E.name]=E.maxRect.w
-        segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh))
-        return opti[E.name]
+        seg=ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,E.maxRect.yh)
+        opti[E.name]=[E.maxRect.w,[seg]]
+        segm.append(seg)
+        return opti[E.name][0]
 
     #the lenght of the maxRect and the solution of the problem on its left and right
-    opti[E.name]=E.maxRect.w + DPstabbing(E.coupure(E.minxb,E.minyb,E.maxRect.xb,E.maxyh),opti,segm) + DPstabbing(E.coupure(E.maxRect.xh,E.minyb,E.maxxh,E.maxyh),opti,segm) 
+    opti[E.name]=[E.maxRect.w + DPstabbing(E.coupure(E.minxb,E.minyb,E.maxRect.xb,E.maxyh),opti,segm) + DPstabbing(E.coupure(E.maxRect.xh,E.minyb,E.maxxh,E.maxyh),opti,segm),[]]
 
     #the optimal choice to place the segment to cut btw the top and bottom
     Rins=E.inside()
@@ -35,11 +39,12 @@ def DPstabbing(E,opti,segm):
             value=True
             segmtoadd=copy.deepcopy(segmtemp)
 
-    opti[E.name]+=optvert
+    opti[E.name][0]+=optvert
+    opti[E.name][1]=copy.deepcopy(segmtoadd)+[ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)]
     segm.extend(copy.deepcopy(segmtoadd))
-    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)) #toujour un problème
+    segm.append(ClassRectangle.Segment(E.maxRect.xb,E.maxRect.xh,Ropti.yh)) 
 
-    return opti[E.name]
+    return opti[E.name][0]
     
 
 #create the lists to run the DP(not necessary to do a fonction for that ...)
@@ -57,10 +62,10 @@ def transform_to_feasible(E,segm):
             start=doubled_end
             end=s.s
             for R in E.Origin_Rect:
-                stabbed=R.xb>=s.s and R.xh<=doubled_end
-                if ( stabbed and start>R.xb):
+                stabbed=R.xb>=s.s and R.xh<=doubled_end and R.yb<=s.h and R.yh>=s.h
+                if ( stabbed and start>=R.xb):
                     start=R.xb
-                if (stabbed and end<R.xh):
+                if (stabbed and end<=R.xh):
                     end=R.xh
             segm_feasible.append(ClassRectangle.Segment(start,end,s.h))
         return segm_feasible

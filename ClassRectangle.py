@@ -72,7 +72,7 @@ class Ensemble:
         lam=True
         for R1 in self.Origin_Rect: #seen as the "big" one
             for R2 in self.Origin_Rect: #seen as the one included inside
-                if (R2.xb>=R1.xb and R2.xb<R1.xh and R2.xh>R1.xh) or (R2.xb<R1.xb and R2.xh>R1.xb and R2.xh<=R1.xh):
+                if (R2.xb>R1.xb and R2.xb<R1.xh and R2.xh>R1.xh) or (R2.xb<R1.xb and R2.xh>R1.xb and R2.xh<R1.xh):
                     lam=False
                     return lam
         return lam
