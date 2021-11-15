@@ -13,7 +13,7 @@ iter=0
 while ratio<8 and iter<10000:
     #creation example random
     
-    n=rd.randrange(3,21) #max number of Rectangle in E -1
+    n=rd.randrange(3,15) #max number of Rectangle in E -1
     maxx=150 #maximum value for x-1 and y-1
     maxy=150
     List_Rect=[]
@@ -90,16 +90,16 @@ while ratio<8 and iter<10000:
 
     #write on file
     
-    fr=open("ratio_random.txt","a")
-    if ratio>=3:
+    fr=open("ratio_random_afteramelioration.txt","a")
+    if ratio>=1.5:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
     
 
     
-    if ratio>=4.5 or ratio<=2.0:
-        f=open("ratio_and_Rect_random.txt","a")
+    if ratio>=3.5 :
+        f=open("ratio_and_Rect_afteramelioration.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
@@ -107,7 +107,7 @@ while ratio<8 and iter<10000:
         f.close()
     
 
-    if ratio>=4.3 or ratio<=1.4:
+    if ratio>=3.5 :
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)
@@ -131,7 +131,7 @@ while ratio<8 and iter<10000:
 
         ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))
         ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
-        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name]))
+        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name][0]))
 
         #tick postion
         ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))

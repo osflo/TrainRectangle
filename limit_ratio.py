@@ -9,7 +9,7 @@ from gurobipy import GRB
 import copy
 
 
-maxpower= 12 #must be odd for good graph if //2
+maxpower= 14 #must be odd for good graph if //2
 if maxpower<=7: #plot the figures
     fig, ax=plt.subplots(2,maxpower//2+1)
     fig.set_figheight(12)
@@ -69,7 +69,7 @@ for power in range(0,maxpower+1):
     segms=[]
     Dpfonction.DPstabbing(E,opti,segms)
     segm_feasible=Dpfonction.transform_to_feasible(E,segms)
-    sol_approx=opti[E.name]*2
+    sol_approx=sum(s.l for s in segm_feasible)
     
 
     #Ratio

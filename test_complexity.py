@@ -26,7 +26,7 @@ for maxx in maxXY:
         segms=[]
         Dpfonction.DPstabbing(E,opti,segms)
         segm_feasible=Dpfonction.transform_to_feasible(segms)
-        sol_approx=opti[E.name]*2
+        sol_approx=sum(s.l for s in segm_feasible)
         end_time=time.time()
         Time.append(end_time-start_time)
     plt.semilogy(N,Time,label='max(xh,yh)='+str(maxx))
