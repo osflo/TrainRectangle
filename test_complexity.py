@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
-N=10*np.arange(1,70)
-maxXY=[100,40]
+N=10*np.arange(1,20) #number of rectangles
+maxXY=[40]       #change in the possible higher values of x and y
 fig=plt.figure()
 for maxx in maxXY:
     Time=[]
@@ -19,14 +19,18 @@ for maxx in maxXY:
             List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxx)))
         E=ClassRectangle.Ensemble(List_Rect)
 
-        #main
-        E.transform_to_laminar()
-
         opti={}
-        segms=[]
-        Dpfonction.DPstabbing(E,opti,segms)
-        segm_feasible=Dpfonction.transform_to_feasible(segms)
+        segm_feasible=[]
+        list_E=Dpfonction.cut_connected_component(E)
+        for e in list_E:
+            segms=[]
+            e.transform_to_laminar()
+            Dpfonction.DPstabbing(e,opti,segms)
+            local_feasible=Dpfonction.transform_to_feasible(e,segms)
+            segm_feasible.extend(local_feasible)
+
         sol_approx=sum(s.l for s in segm_feasible)
+
         end_time=time.time()
         Time.append(end_time-start_time)
     plt.semilogy(N,Time,label='max(xh,yh)='+str(maxx))
@@ -41,7 +45,7 @@ plt.title('Time to run the algorithm in fonction of the number of rectangle n')
 plt.ylabel('time in s')
 plt.xlabel('n')
 plt.legend()
-plt.savefig('test_complexity')
+plt.savefig('test_complexity_after_change')
 plt.show()
 
 

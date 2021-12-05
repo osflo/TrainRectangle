@@ -56,11 +56,18 @@ exact_sol=m.objVal
 exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
 #approximation solution
-E.transform_to_laminar()
 opti={}
-segms=[]
-Dpfonction.DPstabbing(E,opti,segms)
-segm_feasible=Dpfonction.transform_to_feasible(E,segms)
+segm_feasible=[]
+segm_laminar=[]
+
+list_E=Dpfonction.cut_connected_component(E)
+for e in list_E:
+    segms=[]
+    e.transform_to_laminar()
+    Dpfonction.DPstabbing(e,opti,segms)
+    segm_laminar.extend(segms)
+    local_feasible=Dpfonction.transform_to_feasible(e,segms)
+    segm_feasible.extend(local_feasible)
 sol_approx=sum(s.l for s in segm_feasible)
 
 
@@ -85,7 +92,7 @@ for se in segm_feasible:
 for R in E.Rects:
     ax[2].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
-for se in segms:
+for se in segm_laminar:
     ax[2].plot([se.s,se.e],[se.h,se.h],color='r')
 
 ax[0].set_title('True solution on the original instance, OPT='+str(exact_sol))

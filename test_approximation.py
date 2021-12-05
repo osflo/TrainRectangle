@@ -76,11 +76,18 @@ while ratio<8 and iter<100000:
     exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
-    E.transform_to_laminar()
+    Origin_Rect=E.Origin_Rect
     opti={}
-    segms=[]
-    Dpfonction.DPstabbing(E,opti,segms)
-    segm_feasible=Dpfonction.transform_to_feasible(E,segms)
+    segm_feasible=[]
+    segm_laminar=[]
+    list_E=Dpfonction.cut_connected_component(E)
+    for e in list_E:
+        segms=[]
+        e.transform_to_laminar()
+        Dpfonction.DPstabbing(e,opti,segms)
+        segm_laminar.extend(segms)
+        local_feasible=Dpfonction.transform_to_feasible(e,segms)
+        segm_feasible.extend(local_feasible)
     sol_approx=sum(s.l for s in segm_feasible)
     
 
@@ -91,14 +98,14 @@ while ratio<8 and iter<100000:
     #write on file
     
     fr=open("ratio_random_afteramelioration.txt","a")
-    if ratio>=1.4:
+    if ratio>=1.1:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
     
 
     
-    if ratio>=2.0 :
+    if ratio>=1.5 :
         f=open("ratio_and_Rect_afteramelioration.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
@@ -107,7 +114,7 @@ while ratio<8 and iter<100000:
         f.close()
     
 
-    if ratio>=2.0 :
+    if ratio>=1.5 :
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)
@@ -126,7 +133,7 @@ while ratio<8 and iter<100000:
         for R in E.Rects:
             ax[2].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
-        for se in segms:
+        for se in segm_laminar:
             ax[2].plot([se.s,se.e],[se.h,se.h],color='r')
 
         ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))

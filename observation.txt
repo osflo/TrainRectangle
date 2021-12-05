@@ -20,3 +20,5 @@ for case 2 : moving a bit
 case 3 : for the rectangle inside, moving xh doesn't change anything as long as inside,outside diminish the rate ,removing extra rectangle that are good make the rate higher
 need for the two rectangle to not have the same multiple in commun, not have even lenght and the xh in the inside rectangle must be between 2^k+1 and xh of outside rectangle
 if not the *2 is not so much more
+
+After modif the biggest problem is when one rectangle is cut multiple times

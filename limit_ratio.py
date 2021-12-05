@@ -6,10 +6,11 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
-import copy
 
+#used to find the ratio limit  of the special example : if maxpower<=7 then it gives graph of the instances
+#if maxpower>7 show a graph of the ratio in fonction of the power of 2
 
-maxpower= 14 #must be odd for good graph if //2
+maxpower= 7 #must be odd if <=7
 if maxpower<=7: #plot the figures
     fig, ax=plt.subplots(2,maxpower//2+1)
     fig.set_figheight(12)
@@ -64,11 +65,19 @@ for power in range(0,maxpower+1):
     exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
-    E.transform_to_laminar()
+    Origin_Rect=E.Origin_Rect
     opti={}
-    segms=[]
-    Dpfonction.DPstabbing(E,opti,segms)
-    segm_feasible=Dpfonction.transform_to_feasible(E,segms)
+    segm_feasible=[]
+    segm_laminar=[]
+
+    list_E=Dpfonction.cut_connected_component(E)
+    for e in list_E:
+        segms=[]
+        e.transform_to_laminar()
+        Dpfonction.DPstabbing(e,opti,segms)
+        segm_laminar.extend(segms)
+        local_feasible=Dpfonction.transform_to_feasible(e,segms)
+        segm_feasible.extend(local_feasible)
     sol_approx=sum(s.l for s in segm_feasible)
     
 

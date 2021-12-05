@@ -1,4 +1,5 @@
 from operator import attrgetter
+from typing import List
 import ClassRectangle
 import copy
 
@@ -71,3 +72,32 @@ def transform_to_feasible(E,segm):
         return segm_feasible
     else:
         return segm
+
+#To cut the problem into a list of connected component to run seperately
+def cut_connected_component(E):
+    List_Rects=[]
+    #Where associate the list to which each rectangle is sent considering the original order of the rectangles
+    Where=[-1]*E.n
+    for i in range(0,E.n):
+        R1=E.Rects[i]
+        if Where[i]==-1:
+            List_Rects.append([R1])
+            Where[i]=len(List_Rects)-1
+
+        for j in range(i+1,E.n):
+            R2=E.Rects[j]
+            #test if intersect : 1st line test x,2nd testy
+            if ((R1.xb<=R2.xb and R2.xb<=R1.xh) or (R1.xb<=R2.xh and R2.xh<=R1.xh)or(R2.xb<=R1.xb and R1.xb<=R2.xh) or (R2.xb<=R1.xh and R1.xh<=R2.xh)) \
+            and ((R1.yb<=R2.yb and R2.yb<=R1.yh) or (R1.yb<=R2.yh and R2.yh<=R1.yh)or(R2.yb<=R1.yb and R1.yb<=R2.yh) or (R2.yb<=R1.yh and R1.yh<=R2.yh)) :
+             
+                List_Rects[Where[i]].append(R2)
+                Where[j]=Where[i]
+
+            
+    List_E=[]
+    for list in List_Rects:
+        List_E.append(ClassRectangle.Ensemble(list))
+
+    return List_E
+
+

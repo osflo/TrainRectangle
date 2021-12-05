@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import copy
 
+#Create a laminar instance (used for 1st presentation and testing)
+
 n=7 #max number of Rectangle in E -1
 maxx=28 #maximum value for x-1 and y-1
 maxy=30

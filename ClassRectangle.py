@@ -2,7 +2,7 @@ from operator import attrgetter
 import math as ma
 import copy
 
-
+        
 class Rectangle:
     def __init__(self,xb,yb,xh,yh):
         #(xb,yb) coordinate of the lower left corner, (xh,yh) coordinate of the upper right corner, w the lenght, must have xb<xh and yb<yh
