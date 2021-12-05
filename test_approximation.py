@@ -10,7 +10,7 @@ from gurobipy import GRB
 
 ratio=0
 iter=0
-while ratio<8 and iter<30000:
+while ratio<8 and iter<100000:
     #creation example random
     
     n=rd.randrange(3,23) #max number of Rectangle in E -1
