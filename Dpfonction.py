@@ -86,12 +86,12 @@ def cut_connected_component(E):
 
         for j in range(i+1,E.n):
             R2=E.Rects[j]
-            #test if intersect : 1st line test x,2nd testy
+            #test if intersect : 1st line test x,2nd test y
             if ((R1.xb<=R2.xb and R2.xb<=R1.xh) or (R1.xb<=R2.xh and R2.xh<=R1.xh)or(R2.xb<=R1.xb and R1.xb<=R2.xh) or (R2.xb<=R1.xh and R1.xh<=R2.xh)) \
             and ((R1.yb<=R2.yb and R2.yb<=R1.yh) or (R1.yb<=R2.yh and R2.yh<=R1.yh)or(R2.yb<=R1.yb and R1.yb<=R2.yh) or (R2.yb<=R1.yh and R1.yh<=R2.yh)) :
-             
-                List_Rects[Where[i]].append(R2)
-                Where[j]=Where[i]
+                if Where[j]==-1:
+                    List_Rects[Where[i]].append(R2)
+                    Where[j]=Where[i]
 
             
     List_E=[]

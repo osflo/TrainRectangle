@@ -13,9 +13,9 @@ iter=0
 while ratio<8 and iter<100000:
     #creation example random
     
-    n=rd.randrange(3,23) #max number of Rectangle in E -1
-    maxx=300 #maximum value for x-1 and y-1
-    maxy=300
+    n=rd.randrange(3,18) #max number of Rectangle in E -1
+    maxx=100 #maximum value for x-1 and y-1
+    maxy=100
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -89,6 +89,7 @@ while ratio<8 and iter<100000:
         local_feasible=Dpfonction.transform_to_feasible(e,segms)
         segm_feasible.extend(local_feasible)
     sol_approx=sum(s.l for s in segm_feasible)
+    sol_laminar=sum(s.l for s in segm_laminar)
     
 
     #Ratio
@@ -97,7 +98,7 @@ while ratio<8 and iter<100000:
 
     #write on file
     
-    fr=open("ratio_random_afteramelioration.txt","a")
+    fr=open("ratio_random_connected_components.txt","a")
     if ratio>=1.1:
         fr.write("\n")
     fr.write(str(ratio)+" ")
@@ -105,8 +106,8 @@ while ratio<8 and iter<100000:
     
 
     
-    if ratio>=1.5 :
-        f=open("ratio_and_Rect_afteramelioration.txt","a")
+    if ratio>=1.8 :
+        f=open("ratio_and_Rect_connectedcomponents.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
@@ -138,7 +139,7 @@ while ratio<8 and iter<100000:
 
         ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))
         ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
-        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name][0]))
+        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(sol_laminar))
 
         #tick postion
         ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))

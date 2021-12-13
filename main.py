@@ -24,16 +24,18 @@ E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5,R6])
 """
 """
 #test exemple 3
-R1=ClassRectangle.Rectangle(0,4,8,8)
-R2=ClassRectangle.Rectangle(10,10,20,12)
-R3=ClassRectangle.Rectangle(15,6,18,14)
+R1=ClassRectangle.Rectangle(20,4,50,8)
+R2=ClassRectangle.Rectangle(10,9,25,14)
+R3=ClassRectangle.Rectangle(50,7,54,14)
+R4=ClassRectangle.Rectangle(48,10,56,11)
+R5=ClassRectangle.Rectangle(48,12,54,14)
 
-E=ClassRectangle.Ensemble([R1,R2,R3])
+E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5])
 """
 #test exemple 2,
-n=rd.randrange(2,10) #max number of Rectangle in E -1
-maxx=100 #maximum value for x-1 and y-1
-maxy=100
+n=rd.randrange(5,9) #max number of Rectangle in E -1
+maxx=60 #maximum value for x-1 and y-1
+maxy=60
 List_Rect=[]
 for i in range(0,n-1):
     xb=rd.randrange(0,maxx-1)
@@ -49,7 +51,7 @@ segm_feasible=[]
 segm_laminar=[]
 
 #main
-list_E=Dpfonction.cut_connected_compontent(E)
+list_E=Dpfonction.cut_connected_component(E)
 for e in list_E:
     segms=[]
     e.transform_to_laminar()
@@ -57,40 +59,42 @@ for e in list_E:
     segm_laminar.extend(segms)
     local_feasible=Dpfonction.transform_to_feasible(e,segms)
     segm_feasible.extend(local_feasible)
+    print(e.name)
     
 
 print(sum(s.l for s in segm_feasible))
 
 
+
 #plot :
 
-fig, ax=plt.subplots(2,sharex=True)
+fig, ax=plt.subplots()
 
 rgb = np.random.rand(3, )
 for R in Origin_Rect:
-    ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+    ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
 for se in segm_feasible:
-    ax[0].plot([se.s,se.e],[se.h,se.h],color='r')
+    ax.plot([se.s,se.e],[se.h,se.h],color='r')
 
-for R in E.Rects:
-    ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
+# for R in E.Rects:
+#     ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
-for se in segm_laminar:
-    ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
+#for se in segm_laminar:
+#    ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
 
-ax[0].plot()
-ax[1].plot()
+ax.plot()
+#ax[1].plot()
 
-ax[0].set_title('Final solution on the original rectangles')
-ax[1].set_title('Dp solution on the laminar instance')
+ax.set_title('Final solution on the original rectangles')
+#ax[1].set_title('Dp solution on the laminar instance')
 
 #tick postion
-ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))
-ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
+ax.xaxis.set_major_locator(plt.MultipleLocator(2))
+#ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
 
-ax[0].grid()
-ax[1].grid()
+ax.grid()
+#ax[1].grid()
 plt.show()
 
 

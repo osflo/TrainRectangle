@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
-N=10*np.arange(1,20) #number of rectangles
+N=10*np.arange(1,30) #number of rectangles
 maxXY=[40]       #change in the possible higher values of x and y
 fig=plt.figure()
 for maxx in maxXY:
