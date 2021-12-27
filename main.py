@@ -1,3 +1,4 @@
+
 import ClassRectangle
 import Dpfonction
 import random as rd
@@ -22,10 +23,10 @@ E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5,R6])
 
 
 """
-"""
+
 #test exemple 3
 R1=ClassRectangle.Rectangle(20,4,50,8)
-R2=ClassRectangle.Rectangle(10,9,25,14)
+R2=ClassRectangle.Rectangle(25,6,30,14)
 R3=ClassRectangle.Rectangle(50,7,54,14)
 R4=ClassRectangle.Rectangle(48,10,56,11)
 R5=ClassRectangle.Rectangle(48,12,54,14)
@@ -42,7 +43,7 @@ for i in range(0,n-1):
     yb=rd.randrange(0,maxy-1)
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
-
+"""
 
 #copy of the original Rectangle list and different ini
 Origin_Rect=E.Origin_Rect

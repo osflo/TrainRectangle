@@ -106,7 +106,7 @@ while ratio<8 and iter<100000:
     
 
     
-    if ratio>=1.8 :
+    if ratio>=2.0 :
         f=open("ratio_and_Rect_connectedcomponents.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
@@ -115,7 +115,7 @@ while ratio<8 and iter<100000:
         f.close()
     
 
-    if ratio>=1.5 :
+    if ratio>=2.0 :
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)

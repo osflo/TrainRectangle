@@ -1,4 +1,5 @@
 import ClassRectangle
+import Dpfonction
 import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -18,7 +19,9 @@ E=ClassRectangle.Ensemble(List_Rect)
 
 Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
-E.transform_to_laminar()
+list_E=Dpfonction.cut_connected_component(E)
+for e in list_E:
+    e.transform_to_laminar()
 
 fig, ax=plt.subplots(2,sharex=True)
 fig.set_figheight(8)
