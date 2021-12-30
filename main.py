@@ -23,17 +23,17 @@ E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5,R6])
 
 
 """
+"""
+
+#test exemple 2
+R1=ClassRectangle.Rectangle(31,0,59,10)
+R2=ClassRectangle.Rectangle(42,5,66,12)
+R3=ClassRectangle.Rectangle(64,9,83,20)
+R4=ClassRectangle.Rectangle(60,15,84,22)
+E=ClassRectangle.Ensemble([R1,R2,R3,R4])
+"""
 
 #test exemple 3
-R1=ClassRectangle.Rectangle(20,4,50,8)
-R2=ClassRectangle.Rectangle(25,6,30,14)
-R3=ClassRectangle.Rectangle(50,7,54,14)
-R4=ClassRectangle.Rectangle(48,10,56,11)
-R5=ClassRectangle.Rectangle(48,12,54,14)
-
-E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5])
-"""
-#test exemple 2,
 n=rd.randrange(5,9) #max number of Rectangle in E -1
 maxx=60 #maximum value for x-1 and y-1
 maxy=60
@@ -43,7 +43,7 @@ for i in range(0,n-1):
     yb=rd.randrange(0,maxy-1)
     List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
 E=ClassRectangle.Ensemble(List_Rect)
-"""
+
 
 #copy of the original Rectangle list and different ini
 Origin_Rect=E.Origin_Rect
@@ -67,12 +67,12 @@ print(sum(s.l for s in segm_feasible))
 
 
 
-#plot :
+#plot : (the commented section print the solution on the laminar instance)
 
 fig, ax=plt.subplots()
 
 rgb = np.random.rand(3, )
-for R in Origin_Rect:
+for R in E.Origin_Rect:
     ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
 for se in segm_feasible:

@@ -13,7 +13,7 @@ iter=0
 while ratio<8 and iter<100000:
     #creation example random
     
-    n=rd.randrange(3,18) #max number of Rectangle in E -1
+    n=rd.randrange(3,20) #max number of Rectangle in E -1
     maxx=100 #maximum value for x-1 and y-1
     maxy=100
     List_Rect=[]
@@ -37,7 +37,6 @@ while ratio<8 and iter<100000:
     E=ClassRectangle.Ensemble(List_Rect)
 """
     
-
 
     #exact sol
     #create all feasible segments
@@ -80,6 +79,7 @@ while ratio<8 and iter<100000:
     opti={}
     segm_feasible=[]
     segm_laminar=[]
+    name=[]
     list_E=Dpfonction.cut_connected_component(E)
     for e in list_E:
         segms=[]
@@ -88,6 +88,7 @@ while ratio<8 and iter<100000:
         segm_laminar.extend(segms)
         local_feasible=Dpfonction.transform_to_feasible(e,segms)
         segm_feasible.extend(local_feasible)
+        name.append(e.name)
     sol_approx=sum(s.l for s in segm_feasible)
     sol_laminar=sum(s.l for s in segm_laminar)
     
@@ -98,19 +99,23 @@ while ratio<8 and iter<100000:
 
     #write on file
     
-    fr=open("ratio_random_connected_components.txt","a")
-    if ratio>=1.1:
+    fr=open("ratio_random_connected_components_after correction.txt","a")
+    if ratio>=1.2:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
     
 
     
-    if ratio>=2.0 :
-        f=open("ratio_and_Rect_connectedcomponents.txt","a")
+    if ratio>=1.8 :
+        f=open("ratio_and_Rect_connectedcomponents_description_after correction.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
         for R in E.Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
+        f.write("\n")
+        for n in name:
+            f.write(n +' ')
+        f.write("\n")
         f.write("\n")
         f.close()
     
@@ -149,9 +154,7 @@ while ratio<8 and iter<100000:
         ax[0].grid()
         ax[1].grid()
         ax[2].grid()
-        fig.suptitle("ratio="+str(ratio)+", length="+str(E.Origin_Rect[0].w))
+        fig.suptitle("ratio="+str(ratio)+", connected component:"+str(len(list_E))+", n="+str(E.n))
         nom="ratio"+str(ratio)+"iter"+str(iter)+'.png'
         plt.savefig(nom)
 
-if ratio>=8:
-    print("!!!")
