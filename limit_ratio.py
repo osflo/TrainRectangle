@@ -6,10 +6,11 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
-import copy
 
+#used to find the ratio limit  of the special example : if maxpower<=7 then it gives graph of the instances
+#if maxpower>7 show a graph of the ratio in fonction of the power of 2
 
-maxpower= 5 #must be odd for good graph if //2
+maxpower= 7 #must be odd if <=7
 if maxpower<=7: #plot the figures
     fig, ax=plt.subplots(2,maxpower//2+1)
     fig.set_figheight(12)
@@ -26,7 +27,6 @@ for power in range(0,maxpower+1):
     List_Rect=[ClassRectangle.Rectangle(2**(power+1)-1,0,2**(power+1)-1+2**power+1,29),ClassRectangle.Rectangle(2**(power+1),25,2**(power+1)+2**power+1,28),ClassRectangle.Rectangle(2**(power+2)-1,23,2**(power+2)+1,28)]
     E=ClassRectangle.Ensemble(List_Rect)  
 
-    Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
     #exact sol
     #create all feasible segments
@@ -65,12 +65,20 @@ for power in range(0,maxpower+1):
     exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
-    E.transform_to_laminar()
+    Origin_Rect=E.Origin_Rect
     opti={}
-    segms=[]
-    Dpfonction.DPstabbing(E,opti,segms)
-    segm_feasible=Dpfonction.transform_to_feasible(segms)
-    sol_approx=opti[E.name]*2
+    segm_feasible=[]
+    segm_laminar=[]
+
+    list_E=Dpfonction.cut_connected_component(E)
+    for e in list_E:
+        segms=[]
+        e.transform_to_laminar()
+        Dpfonction.DPstabbing(e,opti,segms)
+        segm_laminar.extend(segms)
+        local_feasible=Dpfonction.transform_to_feasible(e,segms)
+        segm_feasible.extend(local_feasible)
+    sol_approx=sum(s.l for s in segm_feasible)
     
 
     #Ratio
@@ -79,7 +87,7 @@ for power in range(0,maxpower+1):
     #plot
     if maxpower<=7:
         if power<=maxpower//2:
-            for R in Origin_Rect:
+            for R in E.Origin_Rect:
                 ax[0,power].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
         
             for se in segm_feasible:
@@ -92,7 +100,7 @@ for power in range(0,maxpower+1):
             ax[0,power].grid()
 
         else:
-            for R in Origin_Rect:
+            for R in E.Origin_Rect:
                 ax[1,power-maxpower//2-1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
         
             for se in segm_feasible:
@@ -114,10 +122,10 @@ for power in range(0,maxpower+1):
 
 if maxpower<=7:
     fig.suptitle('Limit of the ratio',fontsize=25)
-    plt.savefig('limit_ratio_need2_to_line'+str(maxpower))
+    plt.savefig('limit_ratio_aftermodif_to_line'+str(maxpower))
 
 else:
     plt.plot(power2,list_ratio)
     plt.plot(power2,[8 for p in power2])
     plt.title('Convergence of the ratio to 8')
-    plt.savefig('limit_ratio_conv_need2')
+    plt.savefig('limit_ratio_conv_need2_aftermodif')

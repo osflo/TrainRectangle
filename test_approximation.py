@@ -6,16 +6,16 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
-import copy
+
 
 ratio=0
 iter=0
-while ratio<8 and iter<10000:
+while ratio<8 and iter<100000:
     #creation example random
     
-    n=rd.randrange(3,21) #max number of Rectangle in E -1
-    maxx=150 #maximum value for x-1 and y-1
-    maxy=150
+    n=rd.randrange(3,20) #max number of Rectangle in E -1
+    maxx=100 #maximum value for x-1 and y-1
+    maxy=100
     List_Rect=[]
     for i in range(0,n-1):
         xb=rd.randrange(0,maxx-1)
@@ -37,8 +37,6 @@ while ratio<8 and iter<10000:
     E=ClassRectangle.Ensemble(List_Rect)
 """
     
-
-    Origin_Rect=copy.deepcopy(List_Rect) #copy of the original Rectangle list
 
     #exact sol
     #create all feasible segments
@@ -77,12 +75,22 @@ while ratio<8 and iter<10000:
     exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
-    E.transform_to_laminar()
+    Origin_Rect=E.Origin_Rect
     opti={}
-    segms=[]
-    Dpfonction.DPstabbing(E,opti,segms)
-    segm_feasible=Dpfonction.transform_to_feasible(segms)
-    sol_approx=opti[E.name]*2
+    segm_feasible=[]
+    segm_laminar=[]
+    name=[]
+    list_E=Dpfonction.cut_connected_component(E)
+    for e in list_E:
+        segms=[]
+        e.transform_to_laminar()
+        Dpfonction.DPstabbing(e,opti,segms)
+        segm_laminar.extend(segms)
+        local_feasible=Dpfonction.transform_to_feasible(e,segms)
+        segm_feasible.extend(local_feasible)
+        name.append(e.name)
+    sol_approx=sum(s.l for s in segm_feasible)
+    sol_laminar=sum(s.l for s in segm_laminar)
     
 
     #Ratio
@@ -91,30 +99,34 @@ while ratio<8 and iter<10000:
 
     #write on file
     
-    fr=open("ratio_random.txt","a")
-    if ratio>=3:
+    fr=open("ratio_random_connected_components_after correction.txt","a")
+    if ratio>=1.2:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
     
 
     
-    if ratio>=4.5 or ratio<=2.0:
-        f=open("ratio_and_Rect_random.txt","a")
+    if ratio>=1.8 :
+        f=open("ratio_and_Rect_connectedcomponents_description_after correction.txt","a")
         f.write("ratio="+str(ratio)+" Rectangles:")
-        for R in Origin_Rect:
+        for R in E.Origin_Rect:
             f.write("[("+str(R.xb)+","+str(R.yb)+") , ("+str(R.xh)+","+str(R.yh)+")]")
+        f.write("\n")
+        for n in name:
+            f.write(n +' ')
+        f.write("\n")
         f.write("\n")
         f.close()
     
 
-    if ratio>=4.3 or ratio<=1.4:
+    if ratio>=2.0 :
 
         fig, ax=plt.subplots(3,sharex=True)
         fig.set_figheight(8)
         fig.set_figwidth(10)
 
-        for R in Origin_Rect:
+        for R in E.Origin_Rect:
             ax[0].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
             ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
@@ -127,12 +139,12 @@ while ratio<8 and iter<10000:
         for R in E.Rects:
             ax[2].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
-        for se in segms:
+        for se in segm_laminar:
             ax[2].plot([se.s,se.e],[se.h,se.h],color='r')
 
         ax[0].set_title('True solution on the orignal instance, OPT='+str(exact_sol))
         ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
-        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(opti[E.name]))
+        ax[2].set_title('Dp solution on the laminar instance, LAM='+str(sol_laminar))
 
         #tick postion
         ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))
@@ -142,9 +154,7 @@ while ratio<8 and iter<10000:
         ax[0].grid()
         ax[1].grid()
         ax[2].grid()
-        fig.suptitle("ratio="+str(ratio)+", length="+str(Origin_Rect[0].w))
+        fig.suptitle("ratio="+str(ratio)+", connected component:"+str(len(list_E))+", n="+str(E.n))
         nom="ratio"+str(ratio)+"iter"+str(iter)+'.png'
         plt.savefig(nom)
 
-if ratio>=8:
-    print("!!!")

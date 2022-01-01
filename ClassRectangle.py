@@ -1,6 +1,8 @@
 from operator import attrgetter
 import math as ma
+import copy
 
+        
 class Rectangle:
     def __init__(self,xb,yb,xh,yh):
         #(xb,yb) coordinate of the lower left corner, (xh,yh) coordinate of the upper right corner, w the lenght, must have xb<xh and yb<yh
@@ -29,6 +31,8 @@ class Ensemble:
         #Construct the ensemble of rectangle containing the n rectangles from Rects, minxb/minyb is the smallest coordinate for the left/bottom of a rectangle, 
         # maxxh/maxyh  is the largest coordinate for the right/top of a rectangle, maxRect is the rectangle with the biggest lenght w
         self.Rects=List_Rects
+        self.Origin_Rect=copy.deepcopy(List_Rects)
+        self.is_laminar=self.test_laminar()
     
     @property
     def n(self):
@@ -62,13 +66,24 @@ class Ensemble:
         if self.n==0:
             return '0'
         return str(self.minxb)+','+str(self.minyb)+','+str(self.maxxh)+','+str(self.maxyh)
+
+    #test if laminar
+    def test_laminar(self):
+        lam=True
+        for R1 in self.Origin_Rect: #seen as the "big" one
+            for R2 in self.Origin_Rect: #seen as the one included inside
+                if (R2.xb>R1.xb and R2.xb<R1.xh and R2.xh>R1.xh) or (R2.xb<R1.xb and R2.xh>R1.xb and R2.xh<R1.xh):
+                    lam=False
+                    return lam
+        return lam
     
     #fonction to transform the general instance into a laminar instance (this change it's name)
     def transform_to_laminar(self):
-        for R in self.Rects:
-            w=2**(ma.ceil(ma.log2(R.w)))
-            R.xb=(R.xb // w)*w
-            R.xh=R.xb+w
+        if not self.is_laminar:
+            for R in self.Rects:
+                w=2**(ma.ceil(ma.log2(R.w)))
+                R.xb=(R.xb // w)*w
+                R.xh=R.xb+w
     
     #fonction to get a smaller sub-ensemble with lower corner (x1,y1) and uper corner (x2,y2)
     def coupure(self,x1,y1,x2,y2):
