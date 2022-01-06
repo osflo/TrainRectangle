@@ -28,7 +28,7 @@ class Segment:
 
 class Ensemble:
     def __init__(self,List_Rects):
-        #Construct the ensemble of rectangle containing the n rectangles from Rects, minxb/minyb is the smallest coordinate for the left/bottom of a rectangle, 
+        #Construct the ensemble of rectangles containing the n rectangles from Rects, minxb/minyb is the smallest coordinate for the left/bottom of a rectangle, 
         # maxxh/maxyh  is the largest coordinate for the right/top of a rectangle, maxRect is the rectangle with the biggest lenght w
         self.Rects=List_Rects
         self.Origin_Rect=copy.deepcopy(List_Rects)
@@ -38,7 +38,7 @@ class Ensemble:
     def n(self):
         return len(self.Rects) #number of rectangles
         
-    #coordinate of the frame of the ensemble
+    #coordinates of the frame of the ensemble
     @property
     def minxb(self):
         return min(self.Rects,key=attrgetter('xb')).xb
@@ -60,7 +60,7 @@ class Ensemble:
     def maxRect(self):
         return max(self.Rects,key=attrgetter('w'))
 
-    #name determined by its frame, change if the frame is changed, if empty name is '0'
+    #name determined by its frame, change if the frame is changed, if empty its name is '0'
     @property
     def name(self):
         if self.n==0:
@@ -72,12 +72,12 @@ class Ensemble:
         lam=True
         for R1 in self.Origin_Rect: #seen as the "big" one
             for R2 in self.Origin_Rect: #seen as the one included inside
-                if (R2.xb>R1.xb and R2.xb<R1.xh and R2.xh>R1.xh) or (R2.xb<R1.xb and R2.xh>R1.xb and R2.xh<R1.xh):
+                if (R2.xb>R1.xb and R2.xb<R1.xh and R2.xh>R1.xh) or (R2.xb<R1.xb and R2.xh>R1.xb and R2.xh<R1.xh): 
                     lam=False
                     return lam
         return lam
     
-    #fonction to transform the general instance into a laminar instance (this change it's name)
+    #fonction to transform the general instance into a laminar instance (this change its name)
     def transform_to_laminar(self):
         if not self.is_laminar:
             for R in self.Rects:

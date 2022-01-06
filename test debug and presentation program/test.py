@@ -1,5 +1,6 @@
 import igraph
 
+#uses to test the igraph library 
 G=igraph.Graph()
 G.add_vertices(6)
 G.add_edges([(0,1), (2,3),(3,4),(2,5)])

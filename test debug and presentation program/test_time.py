@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
+#this file was used to debug the program, it plot the time taken for different operations and compare
+#the time the algorithm take with and without division into connected components
 N=[20,30,40,50]#number of rectangles
 maxx=40       #change in the possible higher values of x and y
 Timeconn=[]
@@ -24,24 +26,24 @@ for n in N:
     
     #with connected
     list_E=Dpfonction.cut_connected_component(E)
-    # tic=time.time()-start_timeconn
-    # TIC.append(tic)
     start_timeconn=time.time()
+    tic=time.time()-start_timeconn
+    TIC.append(tic)
     for e in list_E:
-        #start=time.time()-start_timeconn
+        start=time.time()-start_timeconn
         segms=[]
         e.transform_to_laminar()
-        # tic=time.time()-start
-        # TIC.append(tic)
+        tic=time.time()-start
+        TIC.append(tic)
         Dpfonction.DPstabbing(e,opti,segms)
-        # tic=time.time()-start
-        # TIC.append(tic)
+        tic=time.time()-start
+        TIC.append(tic)
         local_feasible=Dpfonction.transform_to_feasible(e,segms)
-        # tic=time.time()-start
-        # TIC.append(tic)
+        tic=time.time()-start
+        TIC.append(tic)
         segm_feasible.extend(local_feasible)
-        # tic=time.time()-start
-        # TIC.append(tic)
+        tic=time.time()-start
+        TIC.append(tic)
 
     sol_approx=sum(s.l for s in segm_feasible)
     end_time=time.time()
@@ -63,8 +65,8 @@ ax[0].scatter(N,Timeconn,color='r')
 ax[0].scatter(N,Timenorm)
 ax[0].set_yscale('log')
 
-#ax[1].scatter(np.arange(1,len(TIC)+1,1),TIC)
-#ax[1].set_yscale('log')
+ax[1].scatter(np.arange(1,len(TIC)+1,1),TIC)
+ax[1].set_yscale('log')
 
 plt.show()
-print(TIC)
+

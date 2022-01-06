@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
+#this file tests the complexity of the algorithm : it returns a graph showing the time to run it for different n
+#and differents maximum for x and y
+
 N=10*np.arange(1,30) #number of rectangles
 maxXY=[40]       #change in the possible higher values of x and y
+
 fig=plt.figure()
 for maxx in maxXY:
     Time=[]

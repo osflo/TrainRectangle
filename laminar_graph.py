@@ -3,7 +3,6 @@ import Dpfonction
 import random as rd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-import copy
 
 #Create a laminar instance (used for 1st presentation and testing)
 
@@ -26,10 +25,12 @@ R3=ClassRectangle.Rectangle(64,9,83,20)
 R4=ClassRectangle.Rectangle(60,15,84,22)
 E=ClassRectangle.Ensemble([R1,R2,R3,R4])
 
+#solve
 list_E=Dpfonction.cut_connected_component(E)
 for e in list_E:
     e.transform_to_laminar()
 
+#plot
 fig, ax=plt.subplots(2,sharex=True)
 fig.set_figheight(8)
 fig.set_figwidth(10)
@@ -51,5 +52,5 @@ ax[1].xaxis.set_major_locator(plt.MultipleLocator(2))
 ax[0].grid()
 ax[1].grid()
 
-plt.savefig('laminar_exemple5.png')
+#plt.savefig('laminar_exemple5.png')
 plt.show()

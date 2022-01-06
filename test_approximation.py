@@ -7,12 +7,15 @@ import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
 
+#this file apply the algorithm on a multitude of random cases, write the ratio on a file 
+# moreover for "interesting" ratio, the list of rectangle is written on a file with the corresponding connected components
+# and a graph containing the optiaml solution, the algorithm solution and the solution on the laminar problem is saved    
 
 ratio=0
 iter=0
 while ratio<8 and iter<100000:
+
     #creation example random
-    
     n=rd.randrange(3,20) #max number of Rectangle in E -1
     maxx=100 #maximum value for x-1 and y-1
     maxy=100
@@ -23,7 +26,7 @@ while ratio<8 and iter<100000:
         List_Rect.append(ClassRectangle.Rectangle(xb,yb, rd.randrange(xb+1,maxx), rd.randrange(yb+1,maxy)))
     E=ClassRectangle.Ensemble(List_Rect)
     """
-    #creation exemple with w a 2^k+1
+    #creation exemple with w = 2^k+1
     n=rd.randrange(2,15) #max number of Rectangle in E -1
     maxx=40 #maximum value for x-1 and y-1
     maxy=70
@@ -75,7 +78,6 @@ while ratio<8 and iter<100000:
     exact_segm=[all_segm[i] for i in range(len(all_segm)) if m.x[i]==1]
 
     #approximation solution
-    Origin_Rect=E.Origin_Rect
     opti={}
     segm_feasible=[]
     segm_laminar=[]
@@ -97,15 +99,13 @@ while ratio<8 and iter<100000:
     ratio=sol_approx/exact_sol
     iter+=1
 
-    #write on file
+    #write on file : cahnge the name of the file and the ratio to the interesting cases
     
     fr=open("ratio_random_connected_components_after correction.txt","a")
     if ratio>=1.2:
         fr.write("\n")
     fr.write(str(ratio)+" ")
     fr.close()
-    
-
     
     if ratio>=1.8 :
         f=open("ratio_and_Rect_connectedcomponents_description_after correction.txt","a")
@@ -119,7 +119,7 @@ while ratio<8 and iter<100000:
         f.write("\n")
         f.close()
     
-
+    #pot : change the ratio the the interestings cases
     if ratio>=2.0 :
 
         fig, ax=plt.subplots(3,sharex=True)
@@ -146,7 +146,7 @@ while ratio<8 and iter<100000:
         ax[1].set_title('Approximate solution on the original instance, ALG='+str(sol_approx))
         ax[2].set_title('Dp solution on the laminar instance, LAM='+str(sol_laminar))
 
-        #tick postion
+        #tick position (modify the number if not spaced enought)
         ax[0].xaxis.set_major_locator(plt.MultipleLocator(4))
         ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
         ax[2].xaxis.set_major_locator(plt.MultipleLocator(4))

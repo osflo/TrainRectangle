@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
 
-
+#plot the solution given by the algorithm
 
 """
 #test exemple 1
@@ -18,22 +18,12 @@ R5=ClassRectangle.Rectangle(9,0,15,4)
 R6=ClassRectangle.Rectangle(12,1,17,5)
 E=ClassRectangle.Ensemble([R1,R2,R3,R4,R5,R6])
 
-#List_Rect=[ClassRectangle.Rectangle(15,0,34,29),ClassRectangle.Rectangle(16,25,35,28)]
-#E=ClassRectangle.Ensemble(List_Rect)
+List_Rect=[ClassRectangle.Rectangle(15,0,34,29),ClassRectangle.Rectangle(16,25,35,28)]
+E=ClassRectangle.Ensemble(List_Rect)
 
-
-"""
 """
 
 #test exemple 2
-R1=ClassRectangle.Rectangle(31,0,59,10)
-R2=ClassRectangle.Rectangle(42,5,66,12)
-R3=ClassRectangle.Rectangle(64,9,83,20)
-R4=ClassRectangle.Rectangle(60,15,84,22)
-E=ClassRectangle.Ensemble([R1,R2,R3,R4])
-"""
-
-#test exemple 3
 n=rd.randrange(5,9) #max number of Rectangle in E -1
 maxx=60 #maximum value for x-1 and y-1
 maxy=60
@@ -46,7 +36,6 @@ E=ClassRectangle.Ensemble(List_Rect)
 
 
 #copy of the original Rectangle list and different ini
-Origin_Rect=E.Origin_Rect
 opti={}
 segm_feasible=[]
 segm_laminar=[]
@@ -65,37 +54,24 @@ for e in list_E:
 
 print(sum(s.l for s in segm_feasible))
 
-
-
-#plot : (the commented section print the solution on the laminar instance)
+#plot
 
 fig, ax=plt.subplots()
 
-rgb = np.random.rand(3, )
 for R in E.Origin_Rect:
     ax.add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
 
 for se in segm_feasible:
     ax.plot([se.s,se.e],[se.h,se.h],color='r')
 
-# for R in E.Rects:
-#     ax[1].add_patch(Rectangle((R.xb,R.yb),R.w,(R.yh-R.yb),ec="black",fc=(0,0,1,0.2),lw=2))
-
-#for se in segm_laminar:
-#    ax[1].plot([se.s,se.e],[se.h,se.h],color='r')
-
 ax.plot()
-#ax[1].plot()
 
 ax.set_title('Final solution on the original rectangles')
-#ax[1].set_title('Dp solution on the laminar instance')
 
 #tick postion
 ax.xaxis.set_major_locator(plt.MultipleLocator(2))
-#ax[1].xaxis.set_major_locator(plt.MultipleLocator(4))
 
 ax.grid()
-#ax[1].grid()
 plt.show()
 
 

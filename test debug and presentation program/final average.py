@@ -1,3 +1,5 @@
+#compute the average ratio on one file
+#to use it its necessary to move the corresponding file to the main directory
 f=open('ratio_random_connected_components_after correction.txt','r')
 list_ratio=[]
 

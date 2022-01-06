@@ -7,7 +7,10 @@ import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
 
-#used to find the ratio limit  of the special example : if maxpower<=7 then it gives graph of the instances
+#useless in the last version of the algorithm, it was used for the version before the implementation amelioratons 
+#brought by the function connected component and transform to feasible
+
+#used to find the ratio limit to 8 of the special example : if maxpower<=7 then it gives graph of the instances
 #if maxpower>7 show a graph of the ratio in fonction of the power of 2
 
 maxpower= 7 #must be odd if <=7
@@ -23,7 +26,6 @@ else:#plot a graph
 
 
 for power in range(0,maxpower+1):
-    #
     List_Rect=[ClassRectangle.Rectangle(2**(power+1)-1,0,2**(power+1)-1+2**power+1,29),ClassRectangle.Rectangle(2**(power+1),25,2**(power+1)+2**power+1,28),ClassRectangle.Rectangle(2**(power+2)-1,23,2**(power+2)+1,28)]
     E=ClassRectangle.Ensemble(List_Rect)  
 

@@ -1,4 +1,6 @@
 
+#compute the average ratio from different files, 
+# to use it its necessary to move the corresponding files from figure to the main directory
 f=open('ratio_random.txt','r')
 list_ratio=[]
 
