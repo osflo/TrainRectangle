@@ -11,7 +11,7 @@ The libraries math, copy, igraph, numpy, matplotlib, random, time and gurobipy a
 A gurobi licence might be necessary to have the optimal solution for big instances.
 
 ### Files and folders
-*ClassRectangle.py* The main class defining the rectangle that are stabbed.
+*ClassRectangle.py* The main class defining the rectangle that are stabbed. \n
 *Dpfonction.py* The main part of the algorithm.
 *approxi_particular exemple* This file return a figure with 3 subfigures corresponding to the optimal solution, the final solution given by our algorithm and the solution on the laminar instance given by the dynamic program on a given example.
 *laminar_graph.py* Create a laminar instance of the problem : A set of axis-aligned rectangles is laminar if, for any pair of rectangles in it, their projection on the x-axis are either disjoint or one is contained in the other.
