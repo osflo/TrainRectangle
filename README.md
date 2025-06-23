@@ -1,5 +1,5 @@
 # Bachelor Semester Project : The stabbing problem
-This repository contains the code for my semester project at EPFL with the DISOPT chair under the supervision of Martina Gallato. 
+This repository contains the code for my semester project at EPFL with the DISOPT chair under the supervision of Martina Gallato. The report is included. More information on the problem and the main functions can be found inside.
 
 ## Introduction
 The horizontal stabbing problem consists in finding a set of horizontal segments of minimal length that stabs a given set of n axis-aligned rectangles such that each segment starts and ends at the extremity of one or multiple rectangles. The algorithm implemented here give an 8-approximation algorithm for this problem in O(n<sup>4</sup>). This algorithm was first described in Eisenbrand et al. (2021).
