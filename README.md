@@ -25,12 +25,9 @@ A gurobi licence might be necessary to have the optimal solution for big instanc
 
 *test_complexity.py* : Apply the algorithm and register the time to run it for different axis size and number of rectangle. This was done in order to empirically test the complexity.
 
-__*figures and ratio* Figures and results created by the algorithm__  
-The folder is then further divided by the advancement in the project.
+*figures and ratio* : Folder containing figures and results created by the algorithm. The folder is then further divided by the advancement in the project.
 
-__*test debug and presentation* Debugging and analyzing results__  
-The folder test debug and presentation contains older script to debug and to obtain statistics from the results files created by the algorithm.  
-To use the script, the path name to the result files need to be updated. 
+*test debug and presentation* : Folder containing scripts used to debug and analyze results. To use the script, the path name to the result files need to be updated. 
 
 ## References
 Eisenbrand et al. (2021) : Eisenbrand, Gallato, Svensson and Venzin (2021) A qptas for stabbing rectangles.
